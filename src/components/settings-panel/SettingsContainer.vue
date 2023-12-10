@@ -1,5 +1,8 @@
 <template>
-  <div class="be-settings">
+  <div
+    class="be-settings"
+    :style="{ '--zoom': zoom }"
+  >
     <div class="sidebar">
       <div
         ref="widgetsIcon"
@@ -59,6 +62,7 @@ export default {
     return {
       settingsOpened: false,
       widgetsOpened: false,
+      zoom: 1,
     }
   },
   mounted() {
@@ -72,6 +76,10 @@ export default {
       this.widgetsOpened = false
       this.settingsOpened = true
     })
+    try {
+      const element = document.getElementsByTagName('html')[0]
+      this.zoom = window.getComputedStyle(element).zoom
+    } catch(e) {}
   },
   methods: {
     theWorld() {
@@ -110,7 +118,7 @@ export default {
   }
   line-height: normal;
   font-size: 12px;
-  --panel-height: calc(100vh - 120px);
+  --panel-height: calc((100vh - 120px) / var(--zoom));
   // &,
   // & *,
   // & *::before,
